@@ -1,0 +1,437 @@
+/* Global Styles */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom right, #4E342E, #8D6E63);
+  /* Dégradé marron */
+  color: #ffffff;
+}
+
+/* Page Styles */
+.login-page,
+.register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Centre horizontalement */
+  justify-content: center;
+  /* Centre verticalement */
+  height: 100vh;
+  /* Prend toute la hauteur de la fenêtre */
+  padding: 20px;
+  color: #5D4037;
+  /* Marron moyen */
+}
+
+/* Styles généraux pour les formulaires */
+form {
+  max-width: 450px;
+  /* Largeur maximale du formulaire */
+  width: 100%;
+  /* Assurez-vous que le formulaire remplit la largeur */
+  padding: 30px;
+  /* Rembourrage du formulaire */
+  background-color: #8D6E63;
+  /* Fond marron clair */
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  color: #3E2723;
+  /* Texte plus sombre pour le contraste */
+}
+
+/* Styles spécifiques à l'inscription */
+.register {
+  display: flex;
+  justify-content: center;
+  /* Centre horizontalement */
+  align-items: center;
+  /* Centre verticalement */
+  height: 100vh;
+  /* Prend toute la hauteur de la fenêtre */
+}
+
+/* Shared Form Styles */
+.label {
+  margin-bottom: 5px;
+  /* Réduire l'espacement en bas du label */
+  font-weight: bold;
+  color: #3E2723;
+  /* Couleur d'accentuation marron foncé */
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #A1887F;
+  /* Bord marron clair */
+  border-radius: 6px;
+  font-size: 16px;
+  width: 100%;
+  /* S'assurer que les champs remplissent toute la largeur */
+}
+
+button {
+  background-color: #9e4708;
+  /* Marron foncé */
+  color: #ffffff;
+  padding: 15px;
+  /* Augmentez le rembourrage du bouton */
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #b3560d;
+  /* Marron plus clair au survol */
+  transform: scale(1.05);
+}
+
+/* Autres styles de page */
+.compte-page {
+  padding: 25px;
+  color: #5D4037;
+  /* Marron moyen */
+  background-color: #8D6E63;
+  /* Fond marron clair */
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 50px auto;
+}
+
+/* Info utilisateur */
+.info-utilisateur p {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+/* Styles pour changer le mot de passe */
+.change-password h2 {
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #3E2723;
+  /* Couleur d'accentuation marron foncé */
+}
+
+.change-password form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.change-password label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.change-password input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #A1887F;
+  /* Bord marron clair */
+  border-radius: 6px;
+}
+
+.change-password button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #9e4708;
+  /* Marron foncé */
+  color: #ffffff;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.change-password button:hover {
+  background-color: #b3560d;
+  /* Marron plus clair au survol */
+}
+
+/* App Container */
+.App {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 220px;
+  background-color: #3C2723;
+  /* Marron très foncé */
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.sidebar div {
+  margin-bottom: 15px;
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  padding: 12px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 6px;
+  width: 100%;
+  text-align: center;
+}
+
+.sidebar a:hover {
+  background-color: #A1887F;
+  /* Marron clair au survol */
+  transform: scale(1.05);
+}
+
+.sidebar a.active {
+  background-color: #A0522D;
+  /* Marron de sélection */
+}
+
+/* Content Styles */
+.content {
+  flex: 1;
+  background-color: #D7CCC8;
+  /* Couleur marron clair */
+  border-radius: 12px;
+  margin: 20px;
+  padding: 25px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Header Styles */
+.App-header {
+  background-color: #3C2723;
+  /* Marron très foncé */
+  color: #ffffff;
+  padding: 20px;
+  border-bottom: 2px solid #4E342E;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-button {
+  background-color: #9e4708;
+  /* Marron foncé */
+  color: #ffffff;
+  padding: 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cart-button:hover {
+  background-color: #b3560d;
+  /* Marron plus clair au survol */
+}
+
+/* Footer Styles */
+.App-footer,
+.footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #8D6E63;
+  /* Fond marron clair */
+  color: #ffffff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 2px solid #A1887F;
+  /* Bord marron clair */
+}
+
+/* List Styles */
+ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+li {
+  margin: 10px 0;
+  padding: 25px;
+  background-color: #8D6E63;
+  /* Fond marron clair */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out;
+  width: calc(80% - 20px);
+  box-sizing: border-box;
+}
+
+li:hover {
+  transform: scale(1.05);
+}
+
+/* Item List Styles */
+.item-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.product-item {
+  flex: 0 0 calc(50% - 20px);
+  margin: 10px;
+  background-color: #8d2b07;
+  /* Marron foncé */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .product-item {
+    flex: 0 0 100%;
+  }
+}
+
+.product-item:hover {
+  transform: scale(1.05);
+}
+
+/* Accueil Page Styles */
+.header {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #3C2723;
+  /* Marron très foncé */
+  color: #ffffff;
+  border-bottom: 2px solid #4E342E;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.feature {
+  flex: 0 0 calc(30% - 20px);
+  margin: 10px;
+  padding: 20px;
+  background-color: #A0522D;
+  /* Marron de sélection */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out;
+}
+
+.feature:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .feature {
+    flex: 0 0 100%;
+  }
+}
+
+.product-crud {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+h1,
+h2 {
+  color: #333;
+  /* Couleur pour les titres */
+}
+
+.product-item {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.product-item h3 {
+  color: #555;
+  /* Couleur pour le nom du produit */
+}
+
+.product-item p {
+  color: #666;
+  /* Couleur pour la description du produit */
+}
+
+.product-form,
+.edit-form {
+  margin-bottom: 20px;
+}
+
+.product-form input,
+.edit-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333;
+  /* Couleur du texte des inputs */
+}
+
+.button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  color: white;
+  /* Couleur du texte des boutons */
+}
+
+.button.add {
+  background-color: #4CAF50;
+  /* Vert pour ajouter */
+}
+
+.button.edit {
+  background-color: #2196F3;
+  /* Bleu pour modifier */
+}
+
+.button.delete {
+  background-color: #f44336;
+  /* Rouge pour supprimer */
+}
+
+.button.update {
+  background-color: #FFC107;
+  /* Jaune pour mettre à jour */
+}
+
+.edit-panel {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
