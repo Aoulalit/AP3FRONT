@@ -3,9 +3,9 @@ body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to bottom right, #4E342E, #8D6E63);
-  /* Dégradé marron */
+  background: linear-gradient(to bottom right, #4E342E, #7B5E57);
   color: #ffffff;
+  line-height: 1.6;
 }
 
 /* Page Styles */
@@ -14,78 +14,57 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Centre horizontalement */
   justify-content: center;
-  /* Centre verticalement */
   height: 100vh;
-  /* Prend toute la hauteur de la fenêtre */
   padding: 20px;
   color: #5D4037;
-  /* Marron moyen */
 }
 
-/* Styles généraux pour les formulaires */
 form {
-  max-width: 450px;
-  /* Largeur maximale du formulaire */
+  max-width: 400px;
   width: 100%;
-  /* Assurez-vous que le formulaire remplit la largeur */
   padding: 30px;
-  /* Rembourrage du formulaire */
-  background-color: #8D6E63;
-  /* Fond marron clair */
+  background-color: #6D4C41;
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  color: #3E2723;
-  /* Texte plus sombre pour le contraste */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
 }
 
-/* Styles spécifiques à l'inscription */
-.register {
-  display: flex;
-  justify-content: center;
-  /* Centre horizontalement */
-  align-items: center;
-  /* Centre verticalement */
-  height: 100vh;
-  /* Prend toute la hauteur de la fenêtre */
-}
-
-/* Shared Form Styles */
 .label {
-  margin-bottom: 5px;
-  /* Réduire l'espacement en bas du label */
+  margin-bottom: 8px;
   font-weight: bold;
-  color: #3E2723;
-  /* Couleur d'accentuation marron foncé */
+  color: #F5F5F5;
 }
 
 input {
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #A1887F;
-  /* Bord marron clair */
   border-radius: 6px;
   font-size: 16px;
-  width: 100%;
-  /* S'assurer que les champs remplissent toute la largeur */
+  width: calc(100% - 24px);
+  /* Ajoute une largeur dynamique pour éviter les débordements */
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  background-color: #FFF;
+  color: #3E2723;
 }
 
 button {
   background-color: #9e4708;
-  /* Marron foncé */
   color: #ffffff;
-  padding: 15px;
-  /* Augmentez le rembourrage du bouton */
+  padding: 12px 20px;
   cursor: pointer;
   border: none;
   border-radius: 8px;
   font-weight: bold;
+  text-align: center;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  /* Assure un bouton aligné */
 }
 
 button:hover {
   background-color: #b3560d;
-  /* Marron plus clair au survol */
   transform: scale(1.05);
 }
 
@@ -108,12 +87,11 @@ button:hover {
   font-size: 18px;
 }
 
-/* Styles pour changer le mot de passe */
+/* Shared Form Styles */
 .change-password h2 {
   margin-bottom: 20px;
   font-weight: bold;
   color: #3E2723;
-  /* Couleur d'accentuation marron foncé */
 }
 
 .change-password form {
@@ -128,11 +106,10 @@ button:hover {
 }
 
 .change-password input {
-  width: 100%;
-  padding: 10px;
+  width: calc(100% - 24px);
+  padding: 12px;
   margin-bottom: 15px;
   border: 1px solid #A1887F;
-  /* Bord marron clair */
   border-radius: 6px;
 }
 
@@ -141,7 +118,6 @@ button:hover {
   width: 100%;
   padding: 12px;
   background-color: #9e4708;
-  /* Marron foncé */
   color: #ffffff;
   cursor: pointer;
   border: none;
@@ -151,7 +127,6 @@ button:hover {
 
 .change-password button:hover {
   background-color: #b3560d;
-  /* Marron plus clair au survol */
 }
 
 /* App Container */
@@ -162,14 +137,18 @@ button:hover {
 
 /* Sidebar Styles */
 .sidebar {
-  width: 220px;
+
   background-color: #3C2723;
   /* Marron très foncé */
   color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 30px;
+  position: sticky;
+  height: 100dvh;
+  top: 0;
+  bottom: 0px;
+  padding: 1rem;
 }
 
 .sidebar div {
@@ -180,6 +159,7 @@ button:hover {
   display: block;
   color: white;
   padding: 12px;
+  box-sizing: border-box;
   text-decoration: none;
   transition: background-color 0.3s ease, transform 0.2s ease;
   border-radius: 6px;
@@ -187,10 +167,18 @@ button:hover {
   text-align: center;
 }
 
+.sidebar nav {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  gap: 1rem;
+}
+
 .sidebar a:hover {
   background-color: #A1887F;
   /* Marron clair au survol */
-  transform: scale(1.05);
 }
 
 .sidebar a.active {
@@ -208,6 +196,42 @@ button:hover {
   padding: 25px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
 }
+
+/* Header Styles */
+.header {
+
+  padding: 100px 20px;
+  text-align: center;
+  color: white;
+  border-bottom: 2px solid #A1887F;
+}
+
+.header-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.header-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.cta-button {
+  background-color: #9e4708;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #b3560d;
+  transform: scale(1.1);
+}
+
 
 /* Header Styles */
 .App-header {
@@ -246,9 +270,8 @@ button:hover {
   background-color: #8D6E63;
   /* Fond marron clair */
   color: #ffffff;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+
+
   width: 100%;
   border-top: 2px solid #A1887F;
   /* Bord marron clair */
@@ -288,53 +311,209 @@ li:hover {
   justify-content: space-around;
 }
 
-.product-item {
-  flex: 0 0 calc(50% - 20px);
-  margin: 10px;
-  background-color: #8d2b07;
-  /* Marron foncé */
+/* Product CRUD Styles */
+.product-crud {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #f9f9f9;
+  /* Fond clair */
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
-  box-sizing: border-box;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+h1,
+h2 {
+  color: #3E2723;
   text-align: center;
+  font-size: 24px;
 }
 
-@media (max-width: 767px) {
-  .product-item {
-    flex: 0 0 100%;
-  }
+.product-form,
+.edit-form {
+  padding: 25px;
+  margin-bottom: 20px;
+  background-color: #7E5E50;
+  border-radius: 8px;
+  color: #000;
+  /* Texte en noir pour les formulaires */
 }
 
-.product-item:hover {
+.product-form input,
+.edit-form input {
+  width: calc(100% - 24px);
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #A1887F;
+  color: #3E2723;
+  /* Texte en noir dans les champs */
+  font-size: 16px;
+}
+
+.product-list .product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 15px;
+  background-color: #fff;
+  /* Fond blanc pour les éléments */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  color: #000;
+  /* Texte en noir dans les items de la liste */
+}
+
+.product-list .product-item:hover {
   transform: scale(1.05);
 }
 
-/* Accueil Page Styles */
-.header {
-  text-align: center;
-  padding: 50px 20px;
-  background-color: #3C2723;
-  /* Marron très foncé */
-  color: #ffffff;
-  border-bottom: 2px solid #4E342E;
+.product-list .product-item h3 {
+  color: #000;
+  /* Texte en noir pour le nom et le prix */
 }
 
+.product-item button {
+  margin-left: 10px;
+}
+
+.button {
+  padding: 12px 20px;
+  border-radius: 6px;
+  color: #ffffff;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.button.add {
+  background-color: #4CAF50;
+}
+
+.button.add:hover {
+  background-color: #45a049;
+}
+
+.button.edit {
+  background-color: #2196F3;
+}
+
+.button.edit:hover {
+  background-color: #1e88e5;
+}
+
+.button.delete {
+  background-color: #f44336;
+}
+
+.button.delete:hover {
+  background-color: #e53935;
+}
+
+.button.update {
+  background-color: #FFC107;
+}
+
+.button.update:hover {
+  background-color: #ffb300;
+}
+
+.button.cancel {
+  background-color: #9e4708;
+  margin-left: 10px;
+}
+
+.button.cancel:hover {
+  background-color: #8a3d06;
+}
+
+.product-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-item button {
+  margin-left: 10px;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content input {
+  padding: 12px;
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #A1887F;
+  color: #3E2723;
+  font-size: 16px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-buttons button {
+  width: 48%;
+  padding: 12px;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Features Section */
 .features {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-around;
-  padding: 20px;
+  padding: 50px 20px;
+  flex-wrap: wrap;
+  text-align: center;
 }
 
 .feature {
-  flex: 0 0 calc(30% - 20px);
-  margin: 10px;
-  padding: 20px;
-  background-color: #A0522D;
-  /* Marron de sélection */
+  background-color: #6D4C41;
+  color: white;
+  padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 280px;
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
 }
 
@@ -342,96 +521,506 @@ li:hover {
   transform: scale(1.05);
 }
 
-/* Responsive Design */
+.feature h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #8D6E63;
+  color: white;
+  border-top: 2px solid #A1887F;
+}
+
+/* Media Queries */
 @media (max-width: 768px) {
+  .features {
+    flex-direction: column;
+    align-items: center;
+  }
+
   .feature {
-    flex: 0 0 100%;
+    width: 90%;
   }
 }
 
-.product-crud {
-  max-width: 800px;
-  margin: 0 auto;
+/* Conteneur principal */
+.product-management-container {
+  font-family: 'Arial', sans-serif;
+  color: #4B2E2E;
+  /* Marron foncé pour le texte */
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  background: #FAF3E0;
+  /* Fond beige clair */
 }
 
-h1,
-h2 {
-  color: #333;
-  /* Couleur pour les titres */
-}
-
-.product-item {
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #fff;
-}
-
-.product-item h3 {
-  color: #555;
-  /* Couleur pour le nom du produit */
-}
-
-.product-item p {
-  color: #666;
-  /* Couleur pour la description du produit */
-}
-
-.product-form,
-.edit-form {
+/* Titre principal */
+.product-management-container h2 {
+  text-align: center;
+  color: #4B2E2E;
   margin-bottom: 20px;
 }
 
-.product-form input,
-.edit-form input {
-  width: 100%;
-  padding: 10px;
+/* Boutons */
+.button {
+  background-color: #A0522D;
+  /* Marron terre de Sienne */
+  color: #FFF8F0;
+  /* Blanc cassé */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+  background-color: #8B4513;
+  /* Marron plus foncé */
+  transform: scale(1.05);
+}
+
+.cancel {
+  background-color: #4B2E2E;
+  /* Marron foncé pour les actions de fermeture */
+}
+
+.cancel:hover {
+  background-color: #2E1E1E;
+  /* Marron encore plus foncé */
+}
+
+/* Liste des produits */
+.product-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.product-item {
+  background: #FFF8F0;
+  /* Blanc cassé */
+  border: 1px solid #D2B48C;
+  /* Beige clair */
+  border-radius: 8px;
+  padding: 15px;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-info h3 {
+  color: #4B2E2E;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.product-info p {
+  color: #6F4E37;
+  /* Marron clair */
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Modales */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Arrière-plan semi-transparent */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #FAF3E0;
+  /* Fond beige clair */
+  border-radius: 10px;
+  padding: 20px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h3 {
+  color: #4B2E2E;
+  /* Marron foncé */
+  margin-bottom: 15px;
+}
+
+.modal-content p {
+  color: #6F4E37;
+  /* Marron intermédiaire */
   margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  color: #333;
-  /* Couleur du texte des inputs */
+}
+
+.modal-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Input de recherche */
+.search-input-modal {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #D2B48C;
+  /* Beige clair */
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .product-item {
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
+
+.modal-buttons {
+  text-align: right;
 }
 
 .button {
+  background-color: #007bff;
+  color: white;
   padding: 10px 15px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 10px;
+  text-align: center;
+}
+
+.search-btn {
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Close button styles in modal */
+.cancel {
+  background-color: #FF5733;
+}
+
+.cancel:hover {
+  background-color: #C70039;
+}
+
+/* Pour les petites écrans */
+@media (max-width: 768px) {
+  .product-item {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-image {
+    margin-top: 15px;
+  }
+}
+
+.modal-content {
+  background-color: white;
+  /* Assure un fond blanc pour le contenu */
+  color: black;
+  /* Assure que le texte est noir */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product-info {
+  color: black;
+  /* Texte des produits en noir */
+}
+
+.modal-buttons .button {
   color: white;
   /* Couleur du texte des boutons */
-}
-
-.button.add {
   background-color: #4CAF50;
-  /* Vert pour ajouter */
+  /* Fond bleu pour les boutons */
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
 }
 
-.button.edit {
-  background-color: #2196F3;
-  /* Bleu pour modifier */
+.modal-buttons .button.cancel {
+  background-color: #dc3545;
+  /* Rouge pour les boutons annuler */
 }
 
-.button.delete {
-  background-color: #f44336;
-  /* Rouge pour supprimer */
+.modal-buttons .button:hover {
+  opacity: 0.9;
 }
 
-.button.update {
-  background-color: #FFC107;
-  /* Jaune pour mettre à jour */
+/* Styles pour l'accueil */
+
+
+.main-content {
+
+  /* Espace pour la sidebar */
+
+  /* Réduction du padding pour éviter trop d'espacement */
+  flex: 1;
+  /* Prendre le reste de la place disponible */
+  color: #4B2E2E;
+  /* Assure que la page prenne tout l'espace restant à droite */
+  min-width: calc(100% - 240px);
+  /* Adapter la largeur */
+
+  /* Ajouter un petit espace à droite pour éviter que le contenu touche le bord */
+
+  /* S'assurer que la hauteur occupe toute la fenêtre */
+  box-sizing: border-box;
+  /* Inclure le padding dans la largeur et la hauteur */
 }
 
-.edit-panel {
-  border: 1px solid #ccc;
-  padding: 10px;
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    /* Enlever l'espace réservé pour la sidebar sur les écrans petits */
+    min-width: 100%;
+    /* Assurer que le contenu occupe toute la largeur de l'écran */
+    margin-right: 0;
+    /* Enlever l'espace à droite sur les petits écrans */
+  }
+}
+
+/* En-tête */
+.header {
+  background: linear-gradient(135deg, #A0522D, #D2B48C);
+  /* Dégradé marron */
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.header-title {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+/* Section des fonctionnalités */
+.features {
+  background: #FAF3E0;
+  /* Beige clair pour un contraste doux */
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.features-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.feature {
+  background: #FFF8F0;
+  /* Blanc cassé */
+  border: 1px solid #D2B48C;
+  /* Beige/marron clair */
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: #8B4513;
+  /* Marron foncé pour les icônes */
+  margin-bottom: 15px;
+}
+
+.feature-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #4B2E2E;
+  /* Marron pour les titres */
+}
+
+.feature-description {
+  font-size: 1rem;
+  color: #6F4E37;
+  /* Marron intermédiaire pour le texte */
+}
+
+/* Pied de page */
+.footer {
+  background: #4B2E2E;
+  /* Marron foncé */
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+
+}
+
+.footer-text {
+  font-size: 0.9rem;
+  color: #FAF3E0;
+  /* Beige clair pour un bon contraste */
+}
+
+/* user*/
+/* Style général du tableau */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
   margin-top: 20px;
+}
+
+/* En-têtes du tableau */
+.user-table th {
+  background-color: #4CAF50;
+  /* Vert clair (modifiable) */
+  color: white;
+  /* Texte blanc */
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 16px;
+}
+
+/* Corps du tableau */
+.user-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+  /* Texte gris foncé */
+}
+
+/* Lignes alternées */
+.user-table tr:nth-child(even) {
   background-color: #f9f9f9;
+  /* Gris clair pour les lignes paires */
+}
+
+/* Effet au survol */
+.user-table tr:hover {
+  background-color: #f1f1f1;
+  /* Gris très clair au survol */
+}
+
+/* Message vide (aucun utilisateur) */
+.user-table td[colspan="2"] {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  color: #888;
+  /* Gris pour l'absence de contenu */
+}
+
+/* Boutons */
+button {
+  background-color: #4CAF50;
+  /* Vert primaire */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
   border-radius: 5px;
+  font-size: 14px;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+  /* Vert légèrement plus foncé au survol */
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 100%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Champ du formulaire */
+form div {
+  margin-bottom: 15px;
+}
+
+form label {
+  font-weight: bold;
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+form input[type="checkbox"] {
+  width: auto;
+  margin-left: 10px;
 }

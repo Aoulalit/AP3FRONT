@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
-import { RotatingLines } from "react-loader-spinner";
 
 const Compte = () => {
     const [email, setEmail] = useState('');
@@ -11,18 +10,24 @@ const Compte = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [token, setToken] = useState(null);
+
+    // Récupérer le token et l'email depuis localStorage et vérifier l'authentification
+    const getTokenAndEmail = () => {
+        const storedToken = localStorage.getItem('token');  // Utilisation de localStorage ici
+        const storedEmail = localStorage.getItem('email');  // Utilisation de localStorage ici
+        console.log('Token:', storedToken, 'Email:', storedEmail);  // Ajout de logs pour vérifier les données
+        if (storedToken && storedEmail) {
+            setToken(storedToken);
+            setEmail(storedEmail);
+        } else {
+            console.log("Token ou email manquant dans localStorage");
+        }
+    };
 
     useEffect(() => {
-        const userEmail = sessionStorage.getItem('mail'); // Récupérer l'email à partir de la clé 'mail'
-        if (userEmail) {
-            setEmail(userEmail);
-            setLoading(false);
-        } else {
-            setError('Utilisateur non connecté');
-            setLoading(false);
-        }
+        getTokenAndEmail();  // Appeler la fonction pour récupérer les données à l'ouverture de la page
     }, []);
-    
 
     const handleChangePassword = async () => {
         if (newPassword !== confirmPassword) {
@@ -30,10 +35,11 @@ const Compte = () => {
             return;
         }
         try {
-            const response = await fetch('http://localhost:3002/utilisateurweb/changePassword', {
+            const response = await fetch('http://localhost:3002/api/users/changePassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     email: email,
@@ -42,6 +48,7 @@ const Compte = () => {
                 }),
             });
             const data = await response.json();
+            console.log('Réponse:', data);
             if (data.success) {
                 alert('Mot de passe changé avec succès');
                 setOldPassword('');
@@ -55,24 +62,6 @@ const Compte = () => {
             alert('Erreur lors du changement de mot de passe');
         }
     };
-
-    if (loading) {
-        return (
-            <div className="spinner">
-                <RotatingLines strokeColor="#000" strokeWidth="5" animationDuration="0.75" width="96" visible={true} />
-                <div>Chargement...</div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div>
-                <p>NON CONNECTE</p>
-                <button onClick={() => navigate('/login')}>Se connecter</button>
-            </div>
-        );
-    }
 
     return (
         <div className="compte-page">

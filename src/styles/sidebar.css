@@ -1,0 +1,24 @@
+/* sidebar.css */
+.sidebar {
+    background-color: #3C2723;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    height: 100vh;
+    top: 0;
+    padding: 1rem;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    padding: 12px;
+    box-sizing: border-box;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 6px;
+    width: 100%;
+    text-align: center;
+}

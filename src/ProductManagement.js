@@ -1,69 +1,120 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importer useNavigate
 import './App.css';
-import MainContent from './MainContent';
 
 const ProductManagement = () => {
-    const [affichage, setAffichage] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
-
-    const getRes = async () => {
-        const mail = localStorage.getItem("mail");
-        console.log("mail from localStorage:", mail);
-        if (!mail) {
-            console.error('No mail found in localStorage');
-            setLoading(false);
-            return;
-        }
-
-        try {
-            let result = await fetch('http://localhost:3002/api/products/islogged', { // Notez bien le préfixe 'products'
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ mail }),
-            });
-
-            if (!result.ok) {
-                throw new Error('Network response was not ok: ' + result.statusText);
-            }
-
-            let data = await result.json();
-            console.log("response from /islogged:", data);
-
-            if (data.success) {
-                setAffichage(true);
-            } else {
-                setAffichage(false);
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            alert('Erreur lors de la vérification de la connexion. Veuillez réessayer.');
-        } finally {
-            setLoading(false);
-        }
-    };
+    const [products, setProducts] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+    const [isProductModalOpen, setIsProductModalOpen] = useState(false); // Modal pour afficher les détails du produit
+    const [selectedProduct, setSelectedProduct] = useState(null); // Produit sélectionné pour afficher les détails
+    const navigate = useNavigate(); // Utilisation du hook de navigation
 
     useEffect(() => {
-        getRes();
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('http://localhost:3002/api/products');
+                if (response.ok) {
+                    const data = await response.json();
+                    setProducts(data);
+                } else {
+                    console.error('Erreur lors du chargement des produits.');
+                }
+            } catch (error) {
+                console.error('Erreur réseau : ', error);
+            }
+        };
+        fetchProducts();
     }, []);
 
-    if (loading) {
-        return <p>Loading...</p>;
-    }
-
-    if (affichage) {
-        return <MainContent />;
-    } else {
-        return (
-            <div>
-                <p>NON CONNECTE</p>
-                <button onClick={() => navigate('/login')}>Se connecter</button>
-            </div>
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+        const result = products.filter((product) =>
+            product.nom.toLowerCase().includes(query.toLowerCase()) ||
+            (product.caracteristique && product.caracteristique.toLowerCase().includes(query.toLowerCase()))
         );
-    }
+        setFilteredProducts(result);
+    };
+
+    // Fonction pour afficher le modal avec les détails du produit
+    const handleProductClick = (product) => {
+        setSelectedProduct(product);
+        setIsProductModalOpen(true);
+        setIsSearchModalOpen(false); // Ferme le modal de recherche si ouvert
+    };
+
+    // Fonction pour rediriger vers ProductCRUD
+    const handleEditProduct = () => {
+        navigate('/product-crud'); // Redirection vers la page ProductCRUD
+    };
+
+    return (
+        <div className="product-management-container">
+            <h2>Liste des produits</h2>
+            <button className="button search-btn" onClick={() => setIsSearchModalOpen(true)}>
+                Rechercher un produit
+            </button>
+            <ul className="product-list">
+                {products.map((product) => (
+                    <li key={product.id_produit} className="product-item" onClick={() => handleProductClick(product)}>
+                        <h3>{product.nom}</h3>
+                        <p>Prix : {product.prix} €</p>
+                        <p>Quantité : {product.quantite}</p>
+                    </li>
+                ))}
+            </ul>
+
+            {/* Modal pour rechercher des produits */}
+            {isSearchModalOpen && (
+                <div className="modal active">
+                    <div className="modal-content">
+                        <h3>Recherche de produit</h3>
+                        <input
+                            type="text"
+                            placeholder="Rechercher un produit..."
+                            value={searchQuery}
+                            onChange={(e) => handleSearch(e.target.value)}
+                            className="search-input-modal"
+                        />
+                        <ul className="product-list">
+                            {filteredProducts.length === 0 ? (
+                                <p>Aucun produit trouvé.</p>
+                            ) : (
+                                filteredProducts.map((product) => (
+                                    <li key={product.id_produit} className="product-item" onClick={() => handleProductClick(product)}>
+                                        <h3>{product.nom}</h3>
+                                        <p>Prix : {product.prix} €</p>
+                                    </li>
+                                ))
+                            )}
+                        </ul>
+                        <button className="button cancel" onClick={() => setIsSearchModalOpen(false)}>
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal pour afficher les détails du produit */}
+            {isProductModalOpen && selectedProduct && (
+                <div className="modal active">
+                    <div className="modal-content">
+                        <button className="edit-button" onClick={handleEditProduct}>Édition</button> {/* Bouton "Édition" */}
+                        <h3>Détails du produit</h3>
+                        <img src={selectedProduct.image} alt={selectedProduct.nom} style={{ width: '100%', borderRadius: '8px', marginBottom: '20px' }} />
+                        <h4>{selectedProduct.nom}</h4>
+                        <p><strong>Prix:</strong> {selectedProduct.prix} €</p>
+                        <p><strong>Quantité:</strong> {selectedProduct.quantite}</p>
+                        <p><strong>Caractéristiques:</strong> {selectedProduct.caracteristique}</p>
+                        <button className="button cancel" onClick={() => setIsProductModalOpen(false)}>
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default ProductManagement;

@@ -8,6 +8,9 @@ import Accueil from './Acceuil';
 import Register from './register';
 import Compte from './compte';
 import ProductCRUD from './ProductCRUD'; // Importation du nouveau composant CRUD
+import UserCRUD from './UserCRUD';
+import './index.css';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,19 +33,18 @@ function App() {
     setIsLoggedIn(false);
   };
 
-
-
   return (
     <Router>
       <div className="App">
         <Sidebar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
-        <div className="content">
+        <div className="main-content">
           <Routes>
             <Route path="/" element={<Accueil />} />
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/product-management" element={isLoggedIn ? <ProductManagement /> : <Navigate to="/login" />} />
             <Route path="/product-crud" element={isLoggedIn ? <ProductCRUD /> : <Navigate to="/login" />} /> {/* Ajout de la route CRUD */}
+            <Route path="/user-crud" element={isLoggedIn ? <UserCRUD /> : <Navigate to="/login" />} />
             <Route path="/compte" element={isLoggedIn ? <Compte /> : <Navigate to="/login" />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

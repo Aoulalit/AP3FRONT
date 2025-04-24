@@ -1,6 +1,84 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import './App.css';
 
+
+
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+
+
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+// TEST
+
+
+
+
+
+
+
+
 function MainContent() {
     const [datas, setData] = useState([]);
     const [sortOrder, setSortOrder] = useState('asc');
@@ -10,13 +88,31 @@ function MainContent() {
     const [email, setEmail] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [filtersVisible, setFiltersVisible] = useState(false);
+    const [token, setToken] = useState(null);
 
+    // Fonction pour récupérer le token depuis sessionStorage et vérifier l'authentification
+    const getToken = () => {
+        const storedToken = sessionStorage.getItem('token');
+        if (storedToken) {
+            setToken(storedToken);  // Enregistrer le token dans l'état
+        }
+    };
+
+
+    // Récupérer les produits si l'utilisateur est authentifié
     const getDatas = async () => {
+        if (!token) return;  // Ne pas récupérer les produits si le token est absent
         try {
-            let response = await fetch('http://localhost:3002/api/products');
+            let response = await fetch('http://localhost:3002/api/products', {
+                headers: {
+                    Authorization: `Bearer ${token}`,  // Ajouter le token dans les headers de la requête
+                },
+            });
+
             if (!response.ok) {
                 throw new Error('Erreur lors de la récupération des produits: ' + response.statusText);
             }
+
             let data = await response.json();
             console.log("Produits:", data);
             setData(data); // Mettez à jour l'état avec les produits récupérés
@@ -25,44 +121,21 @@ function MainContent() {
         }
     };
 
-    const getEmail = () => {
-        const emailFromStorage = sessionStorage.getItem('mail');
-        if (emailFromStorage) {
-            setEmail(emailFromStorage);
-        }
-    };
-
-    const getCart = useCallback(async () => {
-        if (!email) return; // Ne pas récupérer le panier si l'email est vide
-        try {
-            const response = await fetch(`http://localhost:3002/api/cart?email=${email}`);
-            if (!response.ok) {
-                throw new Error('Erreur lors de la récupération du panier: ' + response.statusText);
-            }
-            const cartData = await response.json();
-            setCart(Array.isArray(cartData) ? cartData : []);
-        } catch (error) {
-            console.error('Erreur lors de la récupération du panier:', error);
-            alert('Erreur lors de la récupération du panier. Veuillez réessayer.');
-        }
-    }, [email]);
-
     useEffect(() => {
-        getEmail(); // Récupérer l'email au montage du composant
+        getToken(); // Récupérer le token au montage du composant
     }, []);
 
     useEffect(() => {
-        if (email) {
-            getDatas(); // Récupérer les produits si l'utilisateur est connecté
-            if (isCartVisible) {
-                getCart(); // Récupérer le panier si visible
-            }
+        if (token) {
+            verifyToken(token);  // Vérifier si le token est valide
         }
-    }, [email, isCartVisible]);
+    }, [token]);
 
-    // Si l'utilisateur n'est pas connecté, affichez le message
+
+
+    // Si l'utilisateur n'est pas connecté ou si le token est invalide
     if (!email) {
-        return <p>Vous n'êtes pas connecté. Veuillez vous connecter pour afficher les produits.</p>;
+        return <p>Vous n'êtes pas connecté ou le token est invalide. Veuillez vous connecter pour afficher les produits.</p>;
     }
 
     const handleFilterClick = async () => {
@@ -106,74 +179,6 @@ function MainContent() {
         }
     };
 
-    const handleReserveClick = async (productId) => {
-        const reservedProduct = datas.find((data) => data.id_produit === productId);
-        if (!reservedProduct) {
-            console.error('Produit non trouvé');
-            return;
-        }
-
-        const existingProductIndex = cart.findIndex(item => item.id_produit === productId && item.email === email);
-
-        if (existingProductIndex > -1) {
-            // Si le produit existe déjà dans le panier, on augmente la quantité
-            const updatedCart = [...cart];
-            updatedCart[existingProductIndex].quantite += 1;
-            setCart(updatedCart);
-        } else {
-            // Sinon, on ajoute un nouveau produit au panier
-            setCart([...cart, { ...reservedProduct, quantite: 1, email, date: new Date().toISOString().slice(0, 10) }]);
-        }
-
-        try {
-            const response = await fetch('http://localhost:3002/api/addToCart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id_produit: reservedProduct.id_produit,
-                    nom_produit: reservedProduct.nom,
-                    email,
-                    date: new Date().toISOString().slice(0, 10),
-                    quantite: existingProductIndex > -1 ? cart[existingProductIndex].quantite + 1 : 1,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Erreur lors de l\'ajout au panier: ' + response.statusText);
-            }
-
-            console.log('Produit ajouté au panier');
-        } catch (error) {
-            console.error('Erreur lors de l\'ajout au panier:', error);
-            alert('Erreur lors de l\'ajout au panier. Veuillez réessayer.');
-        }
-    };
-
-    const handleConfirmCart = async () => {
-        try {
-            const response = await fetch('http://localhost:3002/api/confirmCart', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, cart }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Erreur lors de la confirmation du panier: ' + response.statusText);
-            }
-
-            console.log('Panier confirmé');
-            setCart([]); // Réinitialiser le panier
-            setIsCartVisible(false); // Fermer le panier
-        } catch (error) {
-            console.error('Erreur lors de la confirmation du panier:', error);
-            alert('Erreur lors de la confirmation du panier. Veuillez réessayer.');
-        }
-    };
-
     return (
         <div className="main-content">
             <header className="App-header">
@@ -201,31 +206,19 @@ function MainContent() {
                     )}
                 </div>
                 <ul className="item-list">
-                    {datas.map((data) => (
-                        <li key={data.id_produit} className="product-item">
-                            <img src={`/images/${data.image}`} alt={data.nom} height="100" />
-                            <p>{data.nom} {data.caracteristique}</p>
-                            <p>{data.prix} €</p>
-                            <button onClick={() => handleReserveClick(data.id_produit)}>Réserver</button>
-                        </li>
-                    ))}
+                    {datas.length > 0 ? (
+                        datas.map((data) => (
+                            <li key={data.id_produit} className="product-item">
+                                <img src={`/images/${data.image}`} alt={data.nom} height="100" />
+                                <p>{data.nom} - {data.caracteristique}</p>
+                                <p>{data.prix} €</p>
+
+                            </li>
+                        ))
+                    ) : (
+                        <li>Aucun produit disponible.</li>
+                    )}
                 </ul>
-                {isCartVisible && (
-                    <div className="cart-modal">
-                        <div className="cart-content">
-                            <h2>Panier</h2>
-                            <ul>
-                                {cart.map((product, index) => (
-                                    <li key={index}>
-                                        {product.nom_produit} - ID Produit: {product.id_produit} - Quantité: {product.quantite} - Date: {product.date}
-                                    </li>
-                                ))}
-                            </ul>
-                            <button onClick={handleConfirmCart}>Confirmer le panier</button>
-                            <button onClick={() => setIsCartVisible(false)}>Fermer</button>
-                        </div>
-                    </div>
-                )}
             </main>
         </div>
     );

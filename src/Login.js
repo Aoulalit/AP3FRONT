@@ -21,9 +21,13 @@ const Login = ({ onLogin }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                alert("Connexion réussie pour " + data.mail);
-                sessionStorage.setItem("mail", data.mail); // Enregistrer dans sessionStorage
-                onLogin(data.mail);
+                console.log(data);
+                
+                // Stocker le token JWT dans sessionStorage
+                sessionStorage.setItem("token", data.token); // Le token JWT est ici
+                localStorage.setItem("email", username); // L'email est stocké dans localStorag
+
+                onLogin(username); // Vous pouvez également passer des infos utilisateur ici si nécessaire
                 navigate('/product-management');
             } else {
                 const errorData = await response.json();
@@ -33,7 +37,6 @@ const Login = ({ onLogin }) => {
             alert('Erreur durant le login: ' + error.message);
         }
     };
-
     const handleRegisterClick = () => {
         navigate('/register');
     };
@@ -62,7 +65,6 @@ const Login = ({ onLogin }) => {
                 <button type="button" onClick={handleLoginClick}>
                     Connexion
                 </button>
-                {/* Ajoutez ce bouton pour naviguer vers l'inscription */}
                 <button type="button" onClick={handleRegisterClick}>
                     S'inscrire
                 </button>

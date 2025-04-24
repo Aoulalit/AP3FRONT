@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import './App.css'; // Importer un fichier CSS pour le style
+import './App.css';
 
+// // Composant ProductItem : Affiche un produit avec ses informations et boutons d'édition et de suppression
 const ProductItem = ({ product, onEdit, onDelete }) => (
     <li className="product-item">
-        <h3>{product.nom} - {product.prix} €</h3>
-        <ul>
-            {(Array.isArray(product.caracteristiques) ? product.caracteristiques : JSON.parse(product.caracteristiques || "[]")).map((carac, index) => (
-                <li key={index}>{carac}</li>
-            ))}
-        </ul>
-        <button className="button edit" onClick={() => onEdit(product)}>Modifier</button>
-        <button className="button delete" onClick={() => onDelete(product.id_produit)}>Supprimer</button>
+        <div>
+            <h3>{product.nom} - {product.prix} €</h3>
+            <ul>
+                {(Array.isArray(product.caracteristiques) ? product.caracteristiques : JSON.parse(product.caracteristiques || "[]")).map((carac, index) => (
+                    <li key={index}>{carac}</li>
+                ))}
+            </ul>
+        </div>
+        <div>
+            <button className="button edit" onClick={() => onEdit(product)}>Modifier</button>
+            <button className="button delete" onClick={() => onDelete(product.id_produit)}>Supprimer</button>
+        </div>
     </li>
 );
 
+// // Composant ProductForm : Formulaire d'ajout de produit avec champs pour le nom, prix et caractéristiques
 const ProductForm = ({ newProduct, setNewProduct, addProduct, addCaracteristique }) => (
     <div className="product-form">
         <h2>Ajouter un produit</h2>
@@ -31,7 +37,7 @@ const ProductForm = ({ newProduct, setNewProduct, addProduct, addCaracteristique
         />
         <input
             type="text"
-            placeholder="Description"
+            placeholder="Caractéristiques"
             value={newProduct.caracteristiques}
             onChange={(e) => setNewProduct({ ...newProduct, caracteristiques: e.target.value })}
         />
@@ -39,24 +45,29 @@ const ProductForm = ({ newProduct, setNewProduct, addProduct, addCaracteristique
     </div>
 );
 
+// // Composant principal ProductCRUD : Gestion de la liste des produits, ajout, modification et suppression
 function ProductCRUD() {
+    // // États du composant
     const [products, setProducts] = useState([]);
     const [newProduct, setNewProduct] = useState({ nom: '', prix: '', caracteristiques: "" });
     const [editProduct, setEditProduct] = useState(null);
     const [newCaracteristique, setNewCaracteristique] = useState('');
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
 
+    // // Chargement des produits au montage du composant
     useEffect(() => {
         fetchProducts();
     }, []);
 
+    // // Fonction pour récupérer les produits depuis l'API
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:3002/api/products'); // Mise à jour de l'URL
+            const response = await fetch('http://localhost:3002/api/products');
             if (!response.ok) {
                 throw new Error('Erreur lors de la récupération des produits.');
             }
             const data = await response.json();
-            console.log(data)
             setProducts(data);
         } catch (error) {
             console.error('Erreur lors de la récupération des produits:', error);
@@ -64,9 +75,10 @@ function ProductCRUD() {
         }
     };
 
+    // // Fonction pour ajouter un produit via l'API
     const addProduct = async () => {
         try {
-            const response = await fetch('http://localhost:3002/api/products/addproduct', { // Mise à jour de l'URL
+            const response = await fetch('http://localhost:3002/api/products/addproduct', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,7 +86,7 @@ function ProductCRUD() {
                 body: JSON.stringify({
                     nom: newProduct.nom,
                     prix: newProduct.prix,
-                    caracteristique: newProduct.caracteristiques, // Stocke les caractéristiques en tableau
+                    caracteristique: newProduct.caracteristiques,
                 }),
             });
 
@@ -83,20 +95,19 @@ function ProductCRUD() {
             }
 
             const data = await response.json();
-            console.log('Produit ajouté avec succès:', data);
             setNewProduct({ nom: '', prix: '', caracteristiques: '' });
             fetchProducts();
+            setShowAddModal(false);
         } catch (error) {
             console.error('Erreur lors de l\'ajout du produit:', error);
             alert('Erreur lors de l\'ajout du produit. Veuillez réessayer.');
         }
     };
 
+    // // Fonction pour supprimer un produit via l'API
     const deleteProduct = async (id) => {
-        const url = `http://localhost:3002/api/products/deleteproduct?id=${id}`;
-        console.log(`Appel de l'URL de suppression : ${url}`);
         try {
-            await fetch(url, {
+            await fetch(`http://localhost:3002/api/products/deleteproduct?id=${id}`, {
                 method: 'DELETE',
             });
             fetchProducts();
@@ -106,15 +117,11 @@ function ProductCRUD() {
         }
     };
 
+    // // Fonction pour mettre à jour un produit via l'API
     const updateProduct = async () => {
-        console.log({
-            nom: editProduct.nom,
-            prix: editProduct.prix,
-            caracteristique: editProduct.caracteristique
-        })
         if (editProduct) {
             try {
-                const response = await fetch(`http://localhost:3002/api/products/editproduct/${editProduct.id_produit}`, { // Mise à jour de l'URL
+                const response = await fetch(`http://localhost:3002/api/products/editproduct/${editProduct.id_produit}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -122,17 +129,16 @@ function ProductCRUD() {
                     body: JSON.stringify({
                         nom: editProduct.nom,
                         prix: editProduct.prix,
-                        caracteristiques: editProduct.caracteristique
+                        caracteristiques: editProduct.caracteristique,
                     }),
                 });
 
                 if (!response.ok) {
-                    console.log(response);
-
                     throw new Error('Erreur lors de la mise à jour du produit.');
                 }
 
                 fetchProducts();
+                setShowEditModal(false);
                 setEditProduct(null);
             } catch (error) {
                 console.error('Erreur lors de la mise à jour du produit:', error);
@@ -141,36 +147,29 @@ function ProductCRUD() {
         }
     };
 
+    // // Fonction pour ajouter une caractéristique au produit
     const addCaracteristique = () => {
         if (newCaracteristique) {
             setNewProduct(prevState => ({
                 ...prevState,
-                caracteristiques: [...prevState.caracteristiques.split(','), newCaracteristique].join(','), // Stockage sous forme de chaîne
+                caracteristiques: [...prevState.caracteristiques.split(','), newCaracteristique].join(','),
             }));
             setNewCaracteristique('');
         }
     };
 
+    // // Fonction pour ouvrir la modal d'édition d'un produit
     const handleEdit = (product) => {
         setEditProduct(product);
-    };
-
-    const handleUpdate = async () => {
-        if (editProduct) {
-            await updateProduct();
-            setEditProduct(null);
-        }
+        setShowEditModal(true);
     };
 
     return (
         <div className="product-crud">
-            <h1>Gestion des Produits</h1>
-            <ProductForm
-                newProduct={newProduct}
-                setNewProduct={setNewProduct}
-                addProduct={addProduct}
-                addCaracteristique={addCaracteristique}
-            />
+            {/* Titre principal de la page */}
+
+
+            {/* Liste des produits */}
             <h2>Liste des produits</h2>
             <ul className="product-list">
                 {products.map((product) => (
@@ -182,31 +181,57 @@ function ProductCRUD() {
                     />
                 ))}
             </ul>
-            {editProduct && (
-                <div className="edit-form">
-                    <h2>Modifier le produit</h2>
-                    <input
-                        type="text"
-                        placeholder="Nom du produit"
-                        value={editProduct.nom || ''}
-                        onChange={(e) => setEditProduct({ ...editProduct, nom: e.target.value })}
-                    />
-                    <input
-                        type="number"
-                        placeholder="Prix du produit"
-                        value={editProduct.prix || ''}
-                        onChange={(e) => setEditProduct({ ...editProduct, prix: e.target.value })}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Caractéristiques"
-                        value={editProduct.caracteristique || ''}
-                        onChange={(e) => setEditProduct({ ...editProduct, caracteristique: e.target.value })}
-                    />
-                    <button className="button update" onClick={handleUpdate}>Mettre à jour</button>
-                    <button className="button cancel" onClick={() => setEditProduct(null)}>Annuler</button>
+
+            {/* Modal Ajouter un produit */}
+            {showAddModal && (
+                <div className="modal active">
+                    <div className="modal-content">
+                        <ProductForm
+                            newProduct={newProduct}
+                            setNewProduct={setNewProduct}
+                            addProduct={addProduct}
+                            addCaracteristique={addCaracteristique}
+                        />
+                        <div className="modal-buttons">
+                            <button className="button cancel" onClick={() => setShowAddModal(false)}>Annuler</button>
+                        </div>
+                    </div>
                 </div>
             )}
+
+            {/* Modal Modifier un produit */}
+            {showEditModal && (
+                <div className="modal active">
+                    <div className="modal-content">
+                        <h2>Modifier le produit</h2>
+                        <input
+                            type="text"
+                            placeholder="Nom du produit"
+                            value={editProduct.nom || ''}
+                            onChange={(e) => setEditProduct({ ...editProduct, nom: e.target.value })}
+                        />
+                        <input
+                            type="number"
+                            placeholder="Prix du produit"
+                            value={editProduct.prix || ''}
+                            onChange={(e) => setEditProduct({ ...editProduct, prix: e.target.value })}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Caractéristiques"
+                            value={editProduct.caracteristique || ''}
+                            onChange={(e) => setEditProduct({ ...editProduct, caracteristique: e.target.value })}
+                        />
+                        <div className="modal-buttons">
+                            <button className="button update" onClick={updateProduct}>Mettre à jour</button>
+                            <button className="button cancel" onClick={() => setShowEditModal(false)}>Annuler</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Déplacer le bouton d'ajout de produit ici */}
+            <button className="button add" onClick={() => setShowAddModal(true)}>Ajouter un produit</button>
         </div>
     );
 }

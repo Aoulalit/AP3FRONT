@@ -1,0 +1,71 @@
+/* global.css */
+
+/* Global Body Styles */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #4E342E, #7B5E57);
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+/* Header Styles */
+.app-header {
+    background-color: #3C2723;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #4E342E;
+    color: white;
+}
+
+.app-header .header-title {
+    font-size: 2.5rem;
+}
+
+.app-header .header-subtitle {
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+/* Footer Styles */
+.app-footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #8D6E63;
+    color: white;
+    border-top: 2px solid #A1887F;
+    width: 100%;
+}
+
+/* Button Styles */
+.button {
+    padding: 12px 20px;
+    border-radius: 6px;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+.button.cancel {
+    background-color: #9e4708;
+}
+
+.button.cancel:hover {
+    background-color: #8a3d06;
+}
+
+.button.add {
+    background-color: #4CAF50;
+}
+
+.button.add:hover {
+    background-color: #45a049;
+}

@@ -7,35 +7,42 @@ const Sidebar = ({ isLoggedIn, onLogout }) => {
 
     return (
         <div className="sidebar">
-            <div>
-                <Link to="/">Accueil</Link>
-            </div>
-            {!isLoggedIn && (
+            <nav>
                 <div>
-                    <Link to="/login">Connexion</Link>
+                    <Link to="/">Accueil</Link>
                 </div>
-            )}
-            {!isLoggedIn && (
-                <div>
-                    <Link to="/register">Inscription</Link>
-                </div>
-            )}
-            {isLoggedIn && (
-                <>
+                {!isLoggedIn && (
                     <div>
-                        <Link to="/product-management">Gestion des Produits</Link>
+                        <Link to="/login">Connexion</Link>
                     </div>
+                )}
+                {!isLoggedIn && (
                     <div>
-                        <Link to="/product-crud">CRUD des Produits</Link> {/* Lien vers la page CRUD */}
+                        <Link to="/register">Inscription</Link>
                     </div>
+                )}
+                {isLoggedIn && (
                     <div>
-                        <Link to="/compte">Compte</Link>
+                        <Link to="/user-crud">Utilisateurs</Link>
                     </div>
-                    <div>
-                        <button onClick={onLogout} className="logout-button">Déconnexion</button>
-                    </div>
-                </>
-            )}
+                )}
+                {isLoggedIn && (
+                    <>
+                        <div>
+                            <Link to="/product-management">Produits</Link>
+                        </div>
+                        <div>
+                            <Link to="/product-crud">Stock</Link> {/* Lien vers la page CRUD */}
+                        </div>
+                        <div>
+                            <Link to="/compte">Compte</Link>
+                        </div>
+                        <div>
+                            <button onClick={onLogout} className="logout-button">Déconnexion</button>
+                        </div>
+                    </>
+                )}
+            </nav>
         </div>
     );
 };
