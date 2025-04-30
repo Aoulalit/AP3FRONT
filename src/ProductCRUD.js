@@ -5,12 +5,26 @@ import './App.css';
 const ProductItem = ({ product, onEdit, onDelete }) => (
     <li className="product-item">
         <div>
-            <h3>{product.nom} - {product.prix} €</h3>
+            <h3>{product.nom}</h3>
+
+            <p style={{ margin: '5px 0', fontSize: '14px', color: 'gray' }}>
+                Stock : {product.quantite !== undefined ? product.quantite : 'N/A'}
+            </p>
+
             <ul>
                 {(Array.isArray(product.caracteristiques) ? product.caracteristiques : JSON.parse(product.caracteristiques || "[]")).map((carac, index) => (
                     <li key={index}>{carac}</li>
                 ))}
             </ul>
+
+            {/* Afficher l'image du produit */}
+            <div>
+                <img
+                    src={product.image || 'default_image_url'} // Affiche l'image si présente, sinon une image par défaut
+                    alt={product.nom}
+                    style={{ width: '100%', height: 'auto', borderRadius: '10px' }}
+                />
+            </div>
         </div>
         <div>
             <button className="button edit" onClick={() => onEdit(product)}>Modifier</button>
@@ -19,7 +33,7 @@ const ProductItem = ({ product, onEdit, onDelete }) => (
     </li>
 );
 
-// // Composant ProductForm : Formulaire d'ajout de produit avec champs pour le nom, prix et caractéristiques
+// // Composant ProductForm : Formulaire d'ajout de produit avec champs pour le nom, prix, caractéristiques et image
 const ProductForm = ({ newProduct, setNewProduct, addProduct, addCaracteristique }) => (
     <div className="product-form">
         <h2>Ajouter un produit</h2>
@@ -41,6 +55,12 @@ const ProductForm = ({ newProduct, setNewProduct, addProduct, addCaracteristique
             value={newProduct.caracteristiques}
             onChange={(e) => setNewProduct({ ...newProduct, caracteristiques: e.target.value })}
         />
+        <input
+            type="text"
+            placeholder="URL de l'image du produit"
+            value={newProduct.image}
+            onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+        />
         <button className="button add" onClick={() => { addCaracteristique(); addProduct(); }}>Ajouter</button>
     </div>
 );
@@ -49,7 +69,7 @@ const ProductForm = ({ newProduct, setNewProduct, addProduct, addCaracteristique
 function ProductCRUD() {
     // // États du composant
     const [products, setProducts] = useState([]);
-    const [newProduct, setNewProduct] = useState({ nom: '', prix: '', caracteristiques: "" });
+    const [newProduct, setNewProduct] = useState({ nom: '', prix: '', caracteristiques: "", quantite: '', image: '' });
     const [editProduct, setEditProduct] = useState(null);
     const [newCaracteristique, setNewCaracteristique] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
@@ -63,7 +83,7 @@ function ProductCRUD() {
     // // Fonction pour récupérer les produits depuis l'API
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:3002/api/products');
+            const response = await fetch('http://10.0.0.70:8082/api/products');
             if (!response.ok) {
                 throw new Error('Erreur lors de la récupération des produits.');
             }
@@ -78,7 +98,7 @@ function ProductCRUD() {
     // // Fonction pour ajouter un produit via l'API
     const addProduct = async () => {
         try {
-            const response = await fetch('http://localhost:3002/api/products/addproduct', {
+            const response = await fetch('http://10.0.0.70:8082/api/products/addproduct', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,6 +107,7 @@ function ProductCRUD() {
                     nom: newProduct.nom,
                     prix: newProduct.prix,
                     caracteristique: newProduct.caracteristiques,
+                    image: newProduct.image,  // Inclure l'URL de l'image
                 }),
             });
 
@@ -95,7 +116,7 @@ function ProductCRUD() {
             }
 
             const data = await response.json();
-            setNewProduct({ nom: '', prix: '', caracteristiques: '' });
+            setNewProduct({ nom: '', prix: '', caracteristiques: '', image: '' });
             fetchProducts();
             setShowAddModal(false);
         } catch (error) {
@@ -107,7 +128,7 @@ function ProductCRUD() {
     // // Fonction pour supprimer un produit via l'API
     const deleteProduct = async (id) => {
         try {
-            await fetch(`http://localhost:3002/api/products/deleteproduct?id=${id}`, {
+            await fetch(`http://10.0.0.70:8082/api/products/deleteproduct?id=${id}`, {
                 method: 'DELETE',
             });
             fetchProducts();
@@ -121,7 +142,7 @@ function ProductCRUD() {
     const updateProduct = async () => {
         if (editProduct) {
             try {
-                const response = await fetch(`http://localhost:3002/api/products/editproduct/${editProduct.id_produit}`, {
+                const response = await fetch(`http://10.0.0.70:8082/api/products/editproduct/${editProduct.id_produit}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -130,6 +151,8 @@ function ProductCRUD() {
                         nom: editProduct.nom,
                         prix: editProduct.prix,
                         caracteristiques: editProduct.caracteristique,
+                        quantite: newProduct.quantite,
+                        image: editProduct.image,  // Mise à jour de l'image
                     }),
                 });
 
@@ -171,6 +194,9 @@ function ProductCRUD() {
 
             {/* Liste des produits */}
             <h2>Liste des produits</h2>
+
+
+            <button className="button add" onClick={() => setShowAddModal(true)}>Ajouter un produit</button>
             <ul className="product-list">
                 {products.map((product) => (
                     <ProductItem
@@ -222,6 +248,18 @@ function ProductCRUD() {
                             value={editProduct.caracteristique || ''}
                             onChange={(e) => setEditProduct({ ...editProduct, caracteristique: e.target.value })}
                         />
+                        <input
+                            type="number"
+                            placeholder="Stock disponible"
+                            value={editProduct.quantite || 0}
+                            onChange={(e) => setEditProduct({ ...editProduct, quantite: parseInt(e.target.value) })}
+                        />
+                        <input
+                            type="text"
+                            placeholder="URL de l'image du produit"
+                            value={editProduct.image || ''}
+                            onChange={(e) => setEditProduct({ ...editProduct, image: e.target.value })}
+                        />
                         <div className="modal-buttons">
                             <button className="button update" onClick={updateProduct}>Mettre à jour</button>
                             <button className="button cancel" onClick={() => setShowEditModal(false)}>Annuler</button>
@@ -229,9 +267,6 @@ function ProductCRUD() {
                     </div>
                 </div>
             )}
-
-            {/* Déplacer le bouton d'ajout de produit ici */}
-            <button className="button add" onClick={() => setShowAddModal(true)}>Ajouter un produit</button>
         </div>
     );
 }

@@ -1,20 +1,16 @@
 import React from 'react';
 import './App.css';
-import { FaShoppingCart, FaSearch, FaHeadset } from 'react-icons/fa';
+import { FaBoxes, FaPlusSquare, FaEdit } from 'react-icons/fa';
 
 function Accueil() {
     return (
         <>
-            <div className='' style={{
-                height: "100dvh"
-            }}>
-
-
+            <div style={{ height: "100dvh" }}>
                 {/* En-tête */}
                 <header className="header">
                     <div className="header-content">
-                        <h1 className="header-title">Bienvenue sur E-Achat</h1>
-                        <p className="header-subtitle">Explorez notre plateforme pour découvrir les meilleures offres en ligne.</p>
+                        <h1 className="header-title">Bienvenue sur le Panneau Administrateur</h1>
+                        <p className="header-subtitle">Gérez votre stock, vos produits et vos catégories facilement.</p>
                     </div>
                 </header>
 
@@ -22,24 +18,24 @@ function Accueil() {
                 <section className="features">
                     <div className="features-grid">
                         <div className="feature">
-                            <FaShoppingCart className="feature-icon" />
-                            <h2 className="feature-title">Achetez facilement</h2>
+                            <FaBoxes className="feature-icon" />
+                            <h2 className="feature-title">Gestion des Stocks</h2>
                             <p className="feature-description">
-                                Commandez des produits en toute simplicité grâce à une navigation intuitive.
+                                Visualisez, organisez et suivez votre inventaire en temps réel.
                             </p>
                         </div>
                         <div className="feature">
-                            <FaSearch className="feature-icon" />
-                            <h2 className="feature-title">Trouvez rapidement</h2>
+                            <FaPlusSquare className="feature-icon" />
+                            <h2 className="feature-title">Ajouter des Produits</h2>
                             <p className="feature-description">
-                                Recherchez rapidement des produits qui répondent à vos besoins avec notre moteur de recherche puissant.
+                                Ajoutez de nouveaux articles en quelques clics pour enrichir votre catalogue.
                             </p>
                         </div>
                         <div className="feature">
-                            <FaHeadset className="feature-icon" />
-                            <h2 className="feature-title">Support client</h2>
+                            <FaEdit className="feature-icon" />
+                            <h2 className="feature-title">Modifier les Produits</h2>
                             <p className="feature-description">
-                                Une équipe dédiée est disponible pour répondre à toutes vos questions.
+                                Mettez à jour les descriptions, les prix et les disponibilités de vos articles.
                             </p>
                         </div>
                     </div>
@@ -48,9 +44,8 @@ function Accueil() {
 
             {/* Pied de page */}
             <footer className="footer">
-                <p className="footer-text">&copy; 2024 E-Achat. Tous droits réservés.</p>
+                <p className="footer-text">&copy; 2024 E-Achat Admin. Tous droits réservés.</p>
             </footer>
-
         </>
     );
 }

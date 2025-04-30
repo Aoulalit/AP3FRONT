@@ -11,7 +11,7 @@ const UserCRUD = () => {
     // Récupère les utilisateurs depuis l'API
     const fetchUsers = async () => {
         try {
-            const response = await fetch(`http://localhost:3002/api/users/users`);
+            const response = await fetch(`http://10.0.0.70:8082/api/users/users`);
             if (!response.ok) {
                 throw new Error('Erreur lors de la récupération des utilisateurs.');
             }
@@ -32,7 +32,7 @@ const UserCRUD = () => {
     // Gère l'ajout d'un utilisateur
     const handleAddUser = async () => {
         try {
-            const response = await fetch(`http://localhost:3002/api/users/user`, {
+            const response = await fetch(`http://10.0.0.70:8082/api/users/user`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newUser),
@@ -54,7 +54,7 @@ const UserCRUD = () => {
     // Gère la suppression d'un utilisateur
     const handleDeleteUser = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3002/api/users/user/${id}`, {
+            const response = await fetch(`http://10.0.0.70:8082/api/users/user/${id}`, {
                 method: 'DELETE',
             });
 
@@ -71,17 +71,25 @@ const UserCRUD = () => {
     // Gère la modification d'un utilisateur
     const handleEditUser = async () => {
         try {
-            const response = await fetch(`http://localhost:3002/api/users/user/edit`, {
+            const dataToSend = {
+                id_utilisateur: editUser.id_utilisateur,   // 🔥 Ici on transforme
+                email: editUser.email || "",
+                motdepasse: editUser.motdepasse || "",
+                admin: editUser.admin || false
+            };
+
+            console.log('Données envoyées au serveur:', dataToSend);
+
+            const response = await fetch(`http://10.0.0.70:8082/api/users/user/edit`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(editUser),
+                body: JSON.stringify(dataToSend),
             });
 
             if (!response.ok) {
                 throw new Error("Erreur lors de la mise à jour de l'utilisateur.");
             }
 
-            // Rafraîchir la liste des utilisateurs
             setShowEditModal(false);
             fetchUsers();
         } catch (error) {
@@ -153,60 +161,11 @@ const UserCRUD = () => {
 
             <button onClick={() => setShowAddModal(true)}>Ajouter un utilisateur</button>
 
-            {showAddModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h3>Ajouter un utilisateur</h3>
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                handleAddUser();
-                            }}
-                        >
-                            <div>
-                                <label>Email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={newUser.email}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label>Mot de passe</label>
-                                <input
-                                    type="password"
-                                    name="motdepasse"
-                                    value={newUser.motdepasse}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label>Admin</label>
-                                <input
-                                    type="checkbox"
-                                    name="admin"
-                                    checked={newUser.admin}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                            <div>
-                                <button type="submit">Ajouter</button>
-                                <button type="button" onClick={() => setShowAddModal(false)}>
-                                    Annuler
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-
             {showEditModal && (
                 <div className="modal">
-                    <div className="modal-content">
-                        <h3>Modifier l'utilisateur</h3>
+                    <div className="modal-container">
+
+                        <h3>Modifier un utilisateur</h3>
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault();
@@ -218,40 +177,43 @@ const UserCRUD = () => {
                                 <input
                                     type="email"
                                     name="email"
-                                    value={editUser.email}
+                                    value={editUser?.email || ""}
                                     onChange={handleEditChange}
                                     required
+                                    placeholder="Entrez l'email"
                                 />
                             </div>
                             <div>
-                                <label>Mot de passe</label>
+                                <label>Mot de passe (laisser vide pour ne pas changer)</label>
                                 <input
                                     type="password"
                                     name="motdepasse"
-                                    value={editUser.motdepasse}
+                                    value={editUser?.motdepasse || ""}
                                     onChange={handleEditChange}
+                                    placeholder="Laisser vide pour ne pas changer"
                                 />
                             </div>
-                            <div>
-                                <label>Admin</label>
+                            <div className="admin-checkbox">
+                                <label htmlFor="admin">Admin</label>
                                 <input
+                                    id="admin"
                                     type="checkbox"
                                     name="admin"
-                                    checked={editUser.admin}
+                                    checked={editUser?.admin || false}
                                     onChange={handleEditChange}
                                 />
                             </div>
-                            <div>
-                                <button type="submit">Mettre à jour</button>
-                                <button type="button" onClick={() => setShowEditModal(false)}>
-                                    Annuler
-                                </button>
+                            <div className="modal-buttons">
+                                <button type="submit" className="button">Mettre à jour</button>
+                                <button type="button" className="button cancel" onClick={() => setShowEditModal(false)}>Annuler</button>
                             </div>
                         </form>
                     </div>
+
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 };
 

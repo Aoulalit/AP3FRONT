@@ -35,7 +35,7 @@ const Compte = () => {
             return;
         }
         try {
-            const response = await fetch('http://localhost:3002/api/users/changePassword', {
+            const response = await fetch('http://10.0.0.70:8082/api/users/changePassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

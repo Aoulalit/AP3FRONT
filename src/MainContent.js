@@ -103,7 +103,7 @@ function MainContent() {
     const getDatas = async () => {
         if (!token) return;  // Ne pas récupérer les produits si le token est absent
         try {
-            let response = await fetch('http://localhost:3002/api/products', {
+            let response = await fetch('http://10.0.0.70:8082/api/products', {
                 headers: {
                     Authorization: `Bearer ${token}`,  // Ajouter le token dans les headers de la requête
                 },
@@ -140,7 +140,7 @@ function MainContent() {
 
     const handleFilterClick = async () => {
         try {
-            const response = await fetch(`http://localhost:3002/api/produitsOrder?order=${sortColumn}&orderBy=${sortOrder}`);
+            const response = await fetch(`http://10.0.0.70:8082/api/produitsOrder?order=${sortColumn}&orderBy=${sortOrder}`);
             if (!response.ok) {
                 throw new Error('Erreur lors du filtrage des produits: ' + response.statusText);
             }
@@ -167,7 +167,7 @@ function MainContent() {
     const handleSearchSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:3002/api/searchProducts?query=${searchQuery}`);
+            const response = await fetch(`http://10.0.0.70:8082/api/searchProducts?query=${searchQuery}`);
             if (!response.ok) {
                 throw new Error('Erreur lors de la recherche des produits: ' + response.statusText);
             }

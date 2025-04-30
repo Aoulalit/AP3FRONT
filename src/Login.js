@@ -8,7 +8,7 @@ const Login = ({ onLogin }) => {
 
     const handleLoginClick = async () => {
         try {
-            const response = await fetch('http://localhost:3002/api/auth/login', {
+            const response = await fetch('http://10.0.0.70:8082/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ const Login = ({ onLogin }) => {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                
+
                 // Stocker le token JWT dans sessionStorage
                 sessionStorage.setItem("token", data.token); // Le token JWT est ici
                 localStorage.setItem("email", username); // L'email est stocké dans localStorag
